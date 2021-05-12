@@ -1,0 +1,247 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:html5="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:body>
+        <ui:composition>
+
+            <div class="breadcrumbs">
+                <div class="breadcrumbs-inner">
+                    <div class="row m-0">
+                        <div class="col-sm-4">
+                            <div class="page-header float-left">
+                                <div class="page-title">
+                                    <h1>${panel}</h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="page-header float-right">
+                                <div class="page-title">
+                                    <ol class="breadcrumb text-right">
+                                        <li><a href="../index.xhtml">Inicio</a></li>
+                                        <li class="active"><a href="#">${panel}</a></li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content">
+                <div class="animated fadeIn">
+                    <div class="row">                        
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <strong class="card-title">Lista de cotizaciones</strong>
+                                </div>
+                                <div class="card-body">
+                                    <h:form>
+                                        <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Id</th>
+                                                    <th>Nombre</th>
+                                                    <th>Correo</th>
+                                                    <th>Fecha de la mudanza</th>
+                                                    <th>Fecha de Solicitud</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <c:forEach items="#{cotizacionController.items}" var="cot">
+                                                    <c:if test="#{cot.estado == (0)}">
+                                                        <tr>
+                                                            <td>#{cot.id}</td>
+                                                            <td>#{cot.nombre}</td>
+                                                            <td>#{cot.correo}</td>
+                                                            <td>#{cot.fechaMudanza}</td>
+                                                            <td>
+                                                                <h:outputText value="#{cot.fechaSolicitud}">
+                                                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                                                </h:outputText>
+                                                            </td>
+                                                            <td>
+
+                                                                <h:commandButton  action="#{cotizacionController.leer(cot)}" style="margin-right: 10px" class="btn btn-outline-primary btn-block" onclick="$('#btnModal').click();" value="Detalle">
+                                                                    <f:ajax render=":formModal"></f:ajax>
+                                                                </h:commandButton>
+
+                                                                <h:commandButton  action="#{cotizacionController.leer(cot)}" style="margin-right: 10px" class="btn btn-outline-danger btn-block" html5:data-toggle="modal" html5:data-target="#mediumModal" value="Enviar Cotización">
+                                                                    <f:ajax render=":formModa2"></f:ajax>
+                                                                </h:commandButton>
+
+
+                                                            </td>
+                                                        </tr>
+                                                    </c:if>
+                                                </c:forEach>    
+
+
+
+                                            </tbody>
+                                        </table>
+                                    </h:form>
+                                </div>
+                                <hr/>
+                                <div class="row">
+                                    <div  class="col-md-8">
+
+                                    </div>                                    
+                                    <div  class="col-md-2">                                        
+
+                                        <button type="button" style="display: none" id="btnModal" class="btn btn-secondary mb-1" data-toggle="modal" data-target="#actualizarModal">
+                                            actualiza Usuario
+                                        </button>
+
+
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                </div><!-- .animated -->
+            </div><!-- .content -->
+
+
+            <div class="modal fade" id="actualizarModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-md" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header text-center btn-primary">
+                            <h5 class="modal-title" id="mediumModalLabel"><h3>Cotización #{cotizacionController.selected.id}</h3></h5>
+                            <h1>#{cotizacionController.selected.nombre}</h1>
+                        </div>
+                        <h:form id="formModal">
+                            <div class="modal-body row justify-content-between">
+
+                                <div class="form-group col-md-6">
+                                    <label>Correo </label>
+                                    <h:inputText  disabled="true" value="#{cotizacionController.selected.correo}" class="form-control" />     
+                                </div>
+
+
+                                <div class="form-group col-md-6">
+                                    <label>Telefono </label>
+                                    <h:inputText  disabled="true" value="#{cotizacionController.selected.numeroTelefono}" class="form-control" />     
+                                </div>
+
+
+                                <div class="form-group col-md-6">
+                                    <label>Origen </label>
+                                    <h:inputText  disabled="true" value="#{cotizacionController.selected.origen}" class="form-control" />     
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label>Dirección Orogen </label>
+                                    <h:inputText  disabled="true" value="#{cotizacionController.selected.direccionOrigen}" class="form-control" />     
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label>Destino </label>
+                                    <h:inputText  disabled="true" value="#{cotizacionController.selected.destino}" class="form-control" />     
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label>Dirección Destino </label>
+                                    <h:inputText  disabled="true" value="#{cotizacionController.selected.direccionDestino}" class="form-control" />     
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label>Tipo de Mudanza </label>
+                                    <h:inputText  disabled="true" value="#{cotizacionController.selected.tipoMudanza}" class="form-control"/>     
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label>Horario </label>
+                                    <h:inputText  disabled="true" value="#{cotizacionController.selected.horario}" class="form-control" />     
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label>Fecha de Mudanza </label>
+                                    <h:inputText  disabled="true" value="#{cotizacionController.selected.fechaMudanza}" class="form-control" />     
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Fecha de Solicitud </label>
+                                    <h:inputText  disabled="true" value="#{cotizacionController.selected.fechaSolicitud}" class="form-control" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:inputText>     
+                                </div>                                
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <h:commandButton action="#{cotizacionController.gestionarCotizacion()}"  class="btn btn-primary btn-flat m-b-30 m-t-30" value="Gestionar"/>
+
+
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <!-- Modal correo -->
+
+            <div class=" modal fade" id="mediumModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header text-center btn-primary">
+                            <h3>¡Envio de Cotización!</h3>
+                        </div>
+                        <div class="modal-body">                            
+                            
+                            <h:form id="formModa2">
+
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <h:inputText required="true" requiredMessage="Asunto" id="regPara" value="#{registroUsuarioRequest.para}" class="form-control" html5:placeholder="#{cotizacionController.selected.correo}"/>
+                                    <h:message style="color: red" for="regPara"></h:message>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Asunto</label>
+                                    <h:inputText required="true" requiredMessage="Asunto" id="regAsunt" value="#{registroUsuarioRequest.sujeto}" class="form-control" html5:placeholder="Asunto"/>
+                                    <h:message style="color: red" for="regAsunt"></h:message>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Mensaje </label>
+                                    <h:inputTextarea id="regmensa" required="true" requiredMessage="Mensaje" value="#{registroUsuarioRequest.mensaje}" class="form-control" html5:placeholder="Mensaje"/>
+                                    <h:message style="color: red" for="regmensa"></h:message>
+                                </div>
+
+                                <p:separator></p:separator>
+
+                                <div class="form-group">
+                                    <h:commandButton action="#{registroUsuarioRequest.correoCotizacion()}"   class="btn btn-primary btn-flat m-b-30 m-t-30" value="Enviar Cotización"/>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>                                  
+                                </div>                                
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </ui:composition>
+    </h:body>
+</html>
+

@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <h:body>
+        <ui:composition>
+            <header id="header" class="header">
+                <div class="top-left">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#"><img src="images/loder.jpg" width="15%" height="15%" />Admin</a>
+                        <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
+                    </div>
+                </div>
+                <div class="top-right">
+                    <div class="header-menu">                       
+
+                        <div class="user-area dropdown float-right" >
+                            <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img class="user-avatar rounded-circle" src="images/loder.jpg" alt="loder"/>
+                            </a>
+                            <h:form>
+                                <div class="user-menu dropdown-menu" style="width: 183px !important;" >
+                                    <a class="nav-link" href="#"><i class="fa fa- user"></i>${nombreUsuario}</a>
+
+                                    <h:commandLink action="#{usuarioSession.cerrarSesion()}" class="nav-link" value="Logout"></h:commandLink>
+
+
+                                </div>
+                            </h:form>
+                        </div>
+
+                    </div>
+                </div>
+            </header>
+        </ui:composition>
+    </h:body>
+</html>
+
